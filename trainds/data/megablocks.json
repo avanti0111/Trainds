@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "megablocks": [
+    {
+      "title": "Western Line Sunday Maintenance Block",
+      "line": "Western",
+      "date": "Every Sunday",
+      "time_range": "00:30 – 05:30",
+      "affected_section": "Churchgate – Virar (Full Line)",
+      "description": "Complete block for track maintenance, signal upgrades, and OHE work. No suburban services on Western Line.",
+      "alternative": "BEST buses on Western Express Highway; Night auto/cab services at major stations"
+    },
+    {
+      "title": "Central Line Sunday Night Block",
+      "line": "Central",
+      "date": "Every Sunday",
+      "time_range": "01:00 – 04:30",
+      "affected_section": "CST – Kalyan",
+      "description": "OHE (overhead electric) maintenance block. Reduced frequency and extended journey times during this window.",
+      "alternative": "BEST buses on Eastern Express Highway; limited MSRTC services"
+    },
+    {
+      "title": "Harbour Line Monthly Mega Block",
+      "line": "Harbour",
+      "date": "Second Sunday of each month",
+      "time_range": "00:30 – 06:00",
+      "affected_section": "CSMT – Panvel",
+      "description": "Track renewal and bridge inspection work. All Harbour Line services suspended during block.",
+      "alternative": "NMMT AC buses on Vashi–Panvel corridor; share autos from Vashi"
+    },
+    {
+      "title": "Western Line Pre-monsoon Track Inspection",
+      "line": "Western",
+      "date": "First Sunday of June",
+      "time_range": "23:00 – 06:00",
+      "affected_section": "Borivali – Virar",
+      "description": "Annual pre-monsoon inspection of bridges and embankments between Borivali and Virar.",
+      "alternative": "BEST buses from Borivali; local auto-rickshaws"
+    },
+    {
+      "title": "Central Line Track Doubling Work – Diva",
+      "line": "Central",
+      "date": "Last Sunday of each month",
+      "time_range": "02:00 – 05:30",
+      "affected_section": "Thane – Diva",
+      "description": "Track doubling project work at Diva junction. Services beyond Thane may be affected.",
+      "alternative": "MSRTC buses from Thane to Dombivali/Kalyan"
+    }
+  ]
+}

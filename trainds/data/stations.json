@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "lines": {
+    "Western": [
+      "Churchgate", "Marine Lines", "Charni Road", "Grant Road",
+      "Mumbai Central", "Mahalaxmi", "Lower Parel", "Elphinstone Road",
+      "Dadar", "Matunga Road", "Mahim", "Bandra", "Khar Road",
+      "Santacruz", "Vile Parle", "Andheri", "Jogeshwari", "Ram Mandir",
+      "Goregaon", "Malad", "Kandivali", "Borivali", "Dahisar",
+      "Mira Road", "Bhayander", "Naigaon", "Vasai Road", "Nallasopara",
+      "Virar", "Vaitarna", "Saphale", "Kelve Road", "Palghar"
+    ],
+    "Central": [
+      "CSMT", "Masjid", "Sandhurst Road", "Byculla", "Chinchpokli",
+      "Currey Road", "Parel", "Dadar", "Matunga", "Sion", "Kurla",
+      "Vidyavihar", "Ghatkopar", "Vikhroli", "Kanjurmarg", "Bhandup",
+      "Nahur", "Mulund", "Thane", "Kalwa", "Mumbra", "Diva",
+      "Kopar", "Dombivali", "Thakurli", "Kalyan", "Shahad",
+      "Ambivali", "Titwala", "Khadavli", "Vasind", "Asangaon",
+      "Atgaon", "Khardi", "Kasara", "Karjat", "Khopoli"
+    ],
+    "Harbour": [
+      "CSMT", "Dockyard Road", "Reay Road", "Cotton Green", "Sewri",
+      "Wadala Road", "Kings Circle", "GTB Nagar", "Chunabhatti",
+      "Kurla", "Tilak Nagar", "Chembur", "Govandi", "Mankhurd",
+      "Vashi", "Sanpada", "Juinagar", "Nerul", "Seawoods", "Belapur",
+      "Kharghar", "Mansarovar", "Khandeshwar", "Panvel"
+    ],
+    "Trans Harbour": [
+      "Thane", "Airoli", "Rabale", "Ghansoli", "Kopar Khairane",
+      "Turbhe", "Sanpada", "Juinagar", "Vashi", "Mankhurd"
+    ]
+  }
+}
