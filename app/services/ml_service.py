@@ -24,18 +24,26 @@ def _load_model():
     try:
         import joblib
         base = os.path.dirname(os.path.abspath(__file__))
+        
+        # Check multiple potential locations for the model file
+        search_paths = [
+            os.path.abspath(os.path.join(base, "..", "..", "ml", "model", "delay_model.pkl")), # Local/Dev
+            os.path.abspath(os.path.join(base, "..", "..", "..", "ml", "model", "delay_model.pkl")), # Alternative
+            os.path.join(os.getcwd(), "ml", "model", "delay_model.pkl"),             # Root Relative
+            os.getenv('MODEL_PATH', '')                                             # Environment Override
+        ]
 
-        project_root = os.path.abspath(os.path.join(base, "..", "..", ".."))
+        model_path = None
+        for path in search_paths:
+            if path and os.path.exists(path):
+                model_path = path
+                break
 
-        model_path = os.path.join(project_root, "ml", "model", "delay_model.pkl")
-
-        logger.info("Looking for ML model at: %s", model_path)
-
-        if os.path.exists(model_path):
+        if model_path:
+            logger.info("Found ML model at: %s", model_path)
             _model = joblib.load(model_path)
-            logger.info("Model exists: %s", os.path.exists(model_path))
         else:
-            logger.warning("Model file not found – using heuristic predictor")
+            logger.warning("Model file not found in any expected location – using heuristic predictor. Searched: %s", search_paths)
     except Exception as e:
         logger.error('Failed to load model: %s', e)
     return _model

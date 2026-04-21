@@ -63,7 +63,7 @@ def process_chat_query(message: str, history: list = None) -> str:
         )
         
         model = genai.GenerativeModel(
-            model_name='gemini-2.5-flash',
+            model_name='gemini-1.5-flash',
             tools=[get_fastest_route, get_delay_prediction, get_available_stations],
             system_instruction=system_instruction
         )
