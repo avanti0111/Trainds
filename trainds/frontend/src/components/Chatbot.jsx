@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { MessageSquare, X, Send, Loader2, Bot, User } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
+import API_BASE_URL from '../api/apiConfig'
+
 
 export default function Chatbot() {
   const { lang, t } = useLanguage()
@@ -25,7 +27,8 @@ export default function Chatbot() {
       const token = localStorage.getItem("token")
       if (!token) return
       try {
-        const res = await fetch("http://127.0.0.1:5000/api/chat/history", {
+        const res = await fetch(`${API_BASE_URL}/chat/history`, {
+
           headers: { "Authorization": `Bearer ${token}` }
         })
         const data = await res.json()
@@ -58,7 +61,8 @@ export default function Chatbot() {
     if (token) headers["Authorization"] = `Bearer ${token}`
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/chat", {
+      const res = await fetch(`${API_BASE_URL}/chat`, {
+
         method: "POST",
         headers: headers,
         body: JSON.stringify({ message: userMessage, lang })

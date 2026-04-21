@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Star, MessageSquareQuote } from 'lucide-react'
 import { useLanguage } from '../contexts/LanguageContext'
+import API_BASE_URL from '../api/apiConfig'
+
 
 export default function Feedback() {
   const [rating, setRating] = useState(0)
@@ -29,7 +31,8 @@ export default function Feedback() {
     setMessage('')
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/feedback", {
+      const res = await fetch(`${API_BASE_URL}/feedback`, {
+
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
