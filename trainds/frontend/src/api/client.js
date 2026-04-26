@@ -66,4 +66,9 @@ export const weatherAPI = {
     client.get('/weather', { params: { city } }).then((r) => r.data),
 }
 
+export const translationAPI = {
+  translateTexts: (texts, target_lang = 'hi') =>
+    client.post('/translate', { texts, target_lang }).then((r) => r.data),
+}
+
 export default client

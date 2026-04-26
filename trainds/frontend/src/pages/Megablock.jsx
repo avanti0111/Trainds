@@ -73,29 +73,29 @@ export default function Megablock() {
               }`}
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
-                  <p className="font-bold text-slate-800 dark:text-slate-100">{b.title}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{b.description}</p>
-                  <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-400">
-                    <span className="flex items-center gap-1">
-                      <Calendar size={12} /> {b.date}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock size={12} /> {b.time_range?.replace(/[^\x00-\x7F]/g, "-")}
-                    </span>
-                    {b.affected_section && (
-                      <span>📍 {b.affected_section}</span>
+                  <div className="flex-1">
+                    <p className="font-bold text-slate-800 dark:text-slate-100">{t(b.title)}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t(b.description)}</p>
+                    <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-400">
+                      <span className="flex items-center gap-1">
+                        <Calendar size={12} /> {t(b.date)}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock size={12} /> {t(b.time_range?.replace(/[^\x00-\x7F]/g, "-"))}
+                      </span>
+                      {b.affected_section && (
+                        <span>📍 {t(b.affected_section)}</span>
+                      )}
+                    </div>
+                    {b.alternative && (
+                      <p className="mt-2 text-xs font-medium text-brand-600 dark:text-brand-400">
+                        💡 {t('Alternative')}: {t(b.alternative)}
+                      </p>
                     )}
                   </div>
-                  {b.alternative && (
-                    <p className="mt-2 text-xs font-medium text-brand-600 dark:text-brand-400">
-                      💡 Alternative: {b.alternative}
-                    </p>
-                  )}
-                </div>
-                <span className={`badge border ${LINE_STYLES[b.line] || 'bg-slate-100 text-slate-600'} shrink-0`}>
-                  {b.line}
-                </span>
+                  <span className={`badge border ${LINE_STYLES[b.line] || 'bg-slate-100 text-slate-600'} shrink-0`}>
+                    {t(b.line)}
+                  </span>
               </div>
             </div>
           ))}

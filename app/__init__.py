@@ -24,6 +24,7 @@ def create_app():
     from app.routes.chat import bp as chat_bp
     from app.routes.auth import bp as auth_bp
     from app.routes.feedback import bp as feedback_bp
+    from app.routes.translation import bp as translation_bp
 
     # Register blueprints with /api prefix
     app.register_blueprint(route_bp, url_prefix="/api")
@@ -34,6 +35,7 @@ def create_app():
     app.register_blueprint(chat_bp, url_prefix="/api")
     app.register_blueprint(auth_bp, url_prefix="/api")
     app.register_blueprint(feedback_bp, url_prefix="/api")
+    app.register_blueprint(translation_bp, url_prefix="/api")
 
     @app.route("/health")
     def health():

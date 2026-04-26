@@ -13,19 +13,14 @@ def get_coords(station_name: str):
         path = os.path.join(base, '..', '..', '..', 'data', 'routes.json')
         path = os.path.normpath(path)
         if os.path.exists(path):
-            with open(path, 'r') as f:
-                data = json.load(f)
-                for s in data.get('stations', []):
-                    _COORDS_CACHE[s['name']] = {'lat': s.get('lat'), 'lon': s.get('lon')}
+            try:
+                with open(path, 'r') as f:
+                    data = json.load(f)
+                    for s in data.get('stations', []):
+                        _COORDS_CACHE[s['name']] = {'lat': s.get('lat'), 'lon': s.get('lon')}
+            except:
+                pass
     return _COORDS_CACHE.get(station_name)
-
-def parse_wmo(code: int) -> str:
-    if code == 0: return 'Clear'
-    if code in (1, 2, 3): return 'Clouds'
-    if code in (45, 48): return 'Mist'
-    if code in (51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82): return 'Rain'
-    if code in (95, 96, 99): return 'Thunderstorm'
-    return 'Clear'
 
 def get_weather_data(station_name: str) -> dict:
     now = time.time()
@@ -34,33 +29,38 @@ def get_weather_data(station_name: str) -> dict:
         if now - timestamp < CACHE_TTL:
             return cached_data
 
+    api_key = os.getenv('OPENWEATHER_API_KEY')
     coords = get_coords(station_name)
-    if not coords or coords['lat'] is None or coords['lon'] is None:
-        # Fallback to sensible defaults
-        return {"rainfall": 0.0, "condition": "Clear"}
+    
+    # Defaults
+    lat, lon = 18.9220, 72.8347 # Mumbai CST
+    if coords and coords['lat'] and coords['lon']:
+        lat, lon = coords['lat'], coords['lon']
+
+    if not api_key:
+        return {"temperature": "--", "description": "No API Key", "rainfall": 0.0}
 
     try:
-        lat, lon = coords['lat'], coords['lon']
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=precipitation,weather_code"
+        url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric"
         resp = requests.get(url, timeout=5)
         resp.raise_for_status()
         data = resp.json()
-        current = data.get('current', {})
         
-        rainfall = float(current.get('precipitation', 0.0))
-        code = int(current.get('weather_code', 0))
-        condition = parse_wmo(code)
+        temp = data.get('main', {}).get('temp', 0.0)
+        desc = data.get('weather', [{}])[0].get('main', 'Clear')
+        rain = data.get('rain', {}).get('1h', 0.0)
 
-        result = {"rainfall": rainfall, "condition": condition}
+        result = {
+            "temperature": round(temp, 1),
+            "description": desc,
+            "rainfall": rain
+        }
         _CACHE[station_name] = (result, now)
         return result
     except Exception as e:
         print(f"Weather API error: {e}")
-        return {"rainfall": 0.0, "condition": "Clear"}
+        return {"temperature": "--", "description": "Offline", "rainfall": 0.0}
 
 def get_weather(city: str) -> dict:
-    """Legacy alias used by app/routes/weather.py"""
-    if city and "mumbai" in city.lower():
-        # Fallback to general Mumbai coords if queried explicitly via city route
-        return get_weather_data("CSMT")
-    return {"rainfall": 0.0, "condition": "Clear"}
+    return get_weather_data("CSMT")
+

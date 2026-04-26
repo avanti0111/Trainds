@@ -187,7 +187,7 @@ _graph_instance: Optional[TrainGraph] = None
 
 def _load_routes_file() -> list:
     base = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(base, '..', '..', '..', 'data', 'routes.json')
+    path = os.path.join(base, '..', '..', 'trainds', 'data', 'routes.json')
     path = os.path.normpath(path)
     if os.path.exists(path):
         try:

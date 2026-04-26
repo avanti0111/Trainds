@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Train, Map, Activity, AlertTriangle,
-  Phone, Cloud, Clock, TrendingUp
+  Phone, Cloud, Clock, TrendingUp, Waypoints
 } from 'lucide-react'
 import { weatherAPI, megablockAPI } from '../api/client'
 import Feedback from '../components/Feedback'
@@ -18,6 +18,7 @@ export default function Dashboard() {
 
   const quickLinks = [
     { to: '/route',     label: t('Plan Route'),      icon: Map,          color: 'text-blue-500',   bg: 'bg-blue-50 dark:bg-blue-900/20'   },
+    { to: '/multi',     label: t('Multi-Stop'),      icon: Waypoints,    color: 'text-indigo-500', bg: 'bg-indigo-50 dark:bg-indigo-900/20'},
     { to: '/delay',     label: t('Delay Predictor'), icon: TrendingUp,   color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-900/20' },
     { to: '/live',      label: t('Live Trains'),     icon: Activity,     color: 'text-emerald-500',bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
     { to: '/megablock', label: t('Megablocks'),      icon: AlertTriangle,color: 'text-orange-500', bg: 'bg-orange-50 dark:bg-orange-900/20'  },
@@ -89,7 +90,7 @@ export default function Dashboard() {
       {/* Quick links */}
       <div>
         <p className="section-label mb-3">{t('Quick Access')}</p>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {quickLinks.map(({ to, label, icon: Icon, color, bg }) => (
             <Link
               key={to}
@@ -111,22 +112,22 @@ export default function Dashboard() {
       {/* Active megablocks */}
       {megablock.length > 0 && (
         <div>
-          <p className="section-label mb-3">⚠️ Active Megablocks</p>
+          <p className="section-label mb-3">{t('⚠️ Active Megablocks')}</p>
           <div className="space-y-2">
             {megablock.slice(1,10).map((m, i) => (
               <div key={i} className="card p-4 border-l-4 border-orange-400">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="font-semibold text-slate-800 dark:text-slate-100">{m.title}</p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{m.description}</p>
+                    <p className="font-semibold text-slate-800 dark:text-slate-100">{t(m.title)}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{t(m.description)}</p>
                   </div>
                   <span className="badge bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300 shrink-0 ml-2">
-                    {m.line}
+                    {t(m.line)}
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-2">
                   <Clock size={11} className="inline mr-1" />
-                  {m.date} · {m.time_range}
+                  {t(m.date)} · {t(m.time_range)}
                 </p>
               </div>
             ))}

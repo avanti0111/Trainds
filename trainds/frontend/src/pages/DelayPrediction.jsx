@@ -188,7 +188,7 @@ export default function DelayPrediction() {
               </div>
               
               {result.weather_used && (
-                <div className="mb-4 bg-slate-100/70 dark:bg-slate-800/70 rounded-lg p-3 flex justify-between items-center text-sm">
+                <div className="mb-4 bg-slate-100 dark:bg-slate-800 rounded-lg p-3 flex justify-between items-center text-sm">
                   <div className="flex flex-col">
                      <span className="text-slate-500 font-semibold mb-0.5">
                        {result.weather_used.is_simulated ? t('Simulated Weather') : t('Live Weather')}
@@ -222,8 +222,7 @@ export default function DelayPrediction() {
 
               <div className="mt-3 space-y-1">
                 {result.factors && result.factors.map((f, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm
-                                          text-slate-600 dark:text-slate-300">
+                  <div key={i} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-500 shrink-0" />
                     {f}
                   </div>
@@ -235,34 +234,34 @@ export default function DelayPrediction() {
                 Model: {result.model}
               </p>
             </div>
-          )}
 
-          {hourlyData.length > 0 && (
-            <div className="card p-5">
-              <p className="section-label mb-3">{t('Delay Forecast – Key Hours')}</p>
-              <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={hourlyData} barSize={20}>
-                  <XAxis dataKey="hour" tick={{ fontSize: 11 }} />
-                  <YAxis tick={{ fontSize: 11 }} unit="m" />
-                  <Tooltip
-                    formatter={(v) => [`${v} min`, 'Delay']}
-                    contentStyle={{ fontSize: 12 }}
-                  />
-                  <Bar dataKey="delay" radius={[4, 4, 0, 0]}>
-                    {hourlyData.map((e, i) => (
-                      <Cell
-                        key={i}
-                        fill={e.delay <= 3 ? '#10b981' : e.delay <= 7 ? '#f59e0b' : '#ef4444'}
-                      />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          )}
-        </div>
+            {hourlyData.length > 0 && (
+              <div className="card p-5">
+                <p className="section-label mb-3">{t('Delay Forecast – Key Hours')}</p>
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart data={hourlyData} barSize={20}>
+                    <XAxis dataKey="hour" tick={{ fontSize: 11 }} />
+                    <YAxis tick={{ fontSize: 11 }} unit="m" />
+                    <Tooltip
+                      formatter={(v) => [`${v} min`, 'Delay']}
+                      contentStyle={{ fontSize: 12 }}
+                    />
+                    <Bar dataKey="delay" radius={[4, 4, 0, 0]}>
+                      {hourlyData.map((e, i) => (
+                        <Cell
+                          key={i}
+                          fill={e.delay <= 3 ? '#10b981' : e.delay <= 7 ? '#f59e0b' : '#ef4444'}
+                        />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>
   )
 }
+

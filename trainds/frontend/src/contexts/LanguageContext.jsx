@@ -1,9 +1,10 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useRef } from 'react'
+import { translationAPI } from '../api/client'
 
 const LanguageContext = createContext()
 
 // Core Static Dictionary ensuring absolute 0ms latency!
-const dictionary = {
+const initialDictionary = {
   // Navigation & General
   "Dashboard": "डैशबोर्ड",
   "Route": "मार्ग",
@@ -118,14 +119,71 @@ const dictionary = {
 
 export function LanguageProvider({ children }) {
   const [lang, setLang] = useState(localStorage.getItem('lang') || 'en')
+  
+  const [dynamicDict, setDynamicDict] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('dynamicDict')) || {}
+    } catch {
+      return {}
+    }
+  })
+
+  const pendingTranslations = useRef(new Set())
+  const timeoutRef = useRef(null)
 
   useEffect(() => {
     localStorage.setItem('lang', lang)
   }, [lang])
 
+  useEffect(() => {
+    localStorage.setItem('dynamicDict', JSON.stringify(dynamicDict))
+  }, [dynamicDict])
+
+  const fetchTranslations = async () => {
+    if (pendingTranslations.current.size === 0 || lang === 'en') return
+    
+    const textsToTranslate = Array.from(pendingTranslations.current)
+    pendingTranslations.current.clear()
+
+    try {
+      const data = await translationAPI.translateTexts(textsToTranslate, lang)
+      if (data.translations) {
+        setDynamicDict(prev => ({ ...prev, ...data.translations }))
+      }
+    } catch (e) {
+      console.error("Translation error", e)
+    }
+  }
+
+  const convertNumerals = (str) => {
+    if (lang !== 'hi' || !str) return str;
+    const hindiNumerals = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+    return str.toString().replace(/[0-9]/g, (w) => hindiNumerals[+w]);
+  }
+
   const t = (text) => {
-    if (lang === 'en') return text
-    return dictionary[text] || text 
+    if (!text || typeof text !== 'string') return text;
+    if (lang === 'en') return text;
+    
+    let result = text;
+
+    // Check static dictionary first
+    if (initialDictionary[text]) {
+      result = initialDictionary[text];
+    } else if (dynamicDict[text]) {
+      // Check dynamic dictionary
+      result = dynamicDict[text];
+    } else {
+      // If not found anywhere, queue it for translation
+      if (!pendingTranslations.current.has(text)) {
+        pendingTranslations.current.add(text)
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = setTimeout(fetchTranslations, 500)
+      }
+    }
+
+    // Always convert numbers if in Hindi
+    return convertNumerals(result);
   }
 
   return (
