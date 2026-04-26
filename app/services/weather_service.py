@@ -38,7 +38,7 @@ def get_weather_data(station_name: str) -> dict:
         lat, lon = coords['lat'], coords['lon']
 
     if not api_key:
-        return {"temperature": "--", "description": "No API Key", "rainfall": 0.0}
+        return {"temperature": "--", "condition": "Clear", "description": "No API Key", "rainfall": 0.0}
 
     try:
         url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric"
@@ -52,6 +52,7 @@ def get_weather_data(station_name: str) -> dict:
 
         result = {
             "temperature": round(temp, 1),
+            "condition": desc,
             "description": desc,
             "rainfall": rain
         }
@@ -59,7 +60,7 @@ def get_weather_data(station_name: str) -> dict:
         return result
     except Exception as e:
         print(f"Weather API error: {e}")
-        return {"temperature": "--", "description": "Offline", "rainfall": 0.0}
+        return {"temperature": "--", "condition": "Clear", "description": "Offline", "rainfall": 0.0}
 
 def get_weather(city: str) -> dict:
     return get_weather_data("CSMT")
